@@ -1,6 +1,7 @@
 import { useReducer } from 'react'
 import AddTask from './components/AddTask'
 import TaskList from './components/TaskList'
+import { GlobalContext } from './context/GlobalContext'
 
 function App() {
   const initialState = {
@@ -40,14 +41,17 @@ function App() {
         return state
     }
   }
+
   const [state, dispatch] = useReducer(tasksReducer, initialState)
   
   return (
-    <div>
+    <GlobalContext.Provider value={{state, dispatch}}>
+      <div>
       <h2>Task App</h2>
-      <AddTask dispatch={dispatch}/>
-      <TaskList state={state}/>
+      <AddTask />
+      <TaskList/>
     </div>
+    </GlobalContext.Provider>
   )
 }
 

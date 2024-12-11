@@ -1,9 +1,12 @@
-import React from 'react'
+import { useContext } from 'react'
+import { GlobalContext } from '../context/GlobalContext'
 
-function TaskList({state}) {
+function TaskList() {
+  const { state, dispatch } = useContext(GlobalContext)
+
   return (
     <div>
-        {state.tasks.map((t) => (
+      {state.tasks.map((t) => (
         <div key={t.id}>
           <small>{t.id}</small>
           <h3>{t.name}</h3>
