@@ -1,4 +1,5 @@
 import { useReducer } from 'react'
+import { v4 as uuid } from 'uuid'
 
 function App() {
   const initialState = {
@@ -24,12 +25,15 @@ function App() {
   const tasksReducer = (state, action) => {
     switch (action.type) {
       case 'ADD_TASK':
-        return 0
-      case 'DELETE_TASK':{
-        const newTasks = state.tasks.filter(t=> t.id !== action.payload)
         return {
           ...state,
-          tasks: newTasks
+          id:uuid(),
+          tasks: state.tasks.concat(action.payload)
+        }
+      case 'DELETE_TASK': {
+        return {
+          ...state,
+          tasks: state.tasks.filter((t) => t.id !== action.payload),
         }
       }
       default:
@@ -37,10 +41,21 @@ function App() {
     }
   }
   const [state, dispatch] = useReducer(tasksReducer, initialState)
-
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const newForm = new FormData(e.target)
+    const task = Object.fromEntries(newForm)
+    dispatch({type:'ADD_TASK', payload:task})
+  }
   return (
     <div>
       <h2>Task App</h2>
+      <form onSubmit={handleSubmit}>
+        <input type="text" placeholder="name" name='name'/>
+        <input type="text" placeholder="description" name='description'/>
+        <button>Save</button>
+      </form>
+
       {state.tasks.map((t) => (
         <div key={t.id}>
           <small>{t.id}</small>
