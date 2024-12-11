@@ -1,5 +1,6 @@
 import { useReducer } from 'react'
-import { v4 as uuid } from 'uuid'
+import AddTask from './components/AddTask'
+import TaskList from './components/TaskList'
 
 function App() {
   const initialState = {
@@ -25,7 +26,6 @@ function App() {
   const tasksReducer = (state, action) => {
     switch (action.type) {
       case 'ADD_TASK':
-        console.log(action.payload)
         return {
           ...state,
           tasks: state.tasks.concat(action.payload)
@@ -41,35 +41,12 @@ function App() {
     }
   }
   const [state, dispatch] = useReducer(tasksReducer, initialState)
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const newForm = new FormData(e.target)
-    const task = Object.fromEntries(newForm)
-    dispatch({type:'ADD_TASK', payload:{...task, id:uuid()}})
-  }
+  
   return (
     <div>
       <h2>Task App</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="text" placeholder="name" name='name'/>
-        <input type="text" placeholder="description" name='description'/>
-        <button>Save</button>
-      </form>
-
-      {state.tasks.map((t) => (
-        <div key={t.id}>
-          <small>{t.id}</small>
-          <h3>{t.name}</h3>
-          <p>{t.description}</p>
-          <button
-            onClick={() => dispatch({ type: 'DELETE_TASK', payload: t.id })}
-          >
-            DELETE
-          </button>
-          {/* <button>EDIT</button> */}
-          <hr />
-        </div>
-      ))}
+      <AddTask dispatch={dispatch}/>
+      <TaskList state={state}/>
     </div>
   )
 }
