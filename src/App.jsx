@@ -25,9 +25,9 @@ function App() {
   const tasksReducer = (state, action) => {
     switch (action.type) {
       case 'ADD_TASK':
+        console.log(action.payload)
         return {
           ...state,
-          id:uuid(),
           tasks: state.tasks.concat(action.payload)
         }
       case 'DELETE_TASK': {
@@ -45,7 +45,7 @@ function App() {
     e.preventDefault()
     const newForm = new FormData(e.target)
     const task = Object.fromEntries(newForm)
-    dispatch({type:'ADD_TASK', payload:task})
+    dispatch({type:'ADD_TASK', payload:{...task, id:uuid()}})
   }
   return (
     <div>
