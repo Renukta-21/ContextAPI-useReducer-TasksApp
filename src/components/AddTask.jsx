@@ -1,17 +1,16 @@
-import { v4 as uuid } from 'uuid'
 import { GlobalContext } from '../context/GlobalContext'
 import { useContext } from 'react'
 import { Link, useNavigate } from 'react-router'
 
 function AddTask() {
-  const { dispatch } = useContext(GlobalContext)
+  const { addTask } = useContext(GlobalContext)
   const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault()
     const newForm = new FormData(e.target)
     const task = Object.fromEntries(newForm)
-    dispatch({ type: 'ADD_TASK', payload: { ...task, id: uuid() } })
+    addTask(task)
     navigate('/')
   }
   

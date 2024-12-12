@@ -1,5 +1,6 @@
 import { useReducer } from "react"
 import { GlobalContext } from "./GlobalContext"
+import { v4 as uuid } from "uuid"
 
 const initialState = {
     tasks: [
@@ -43,8 +44,12 @@ const initialState = {
 export function GlobalContextProvider ({children}){
     const [state, dispatch] = useReducer(tasksReducer, initialState)
 
+    const addTask = (task)=>{
+      dispatch({type:'ADD_TASK', payload:{...task, id:uuid()}})
+    }
+
     return(
-        <GlobalContext.Provider value={{state, dispatch}}>
+        <GlobalContext.Provider value={{state, addTask}}>
             {children}
         </GlobalContext.Provider>
     )
