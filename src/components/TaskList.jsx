@@ -1,9 +1,10 @@
 import { useContext } from 'react'
 import { GlobalContext } from '../context/GlobalContext'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 
 function TaskList() {
   const { state, dispatch } = useContext(GlobalContext)
+  const navigate = useNavigate()
 
   return (
     <div>
@@ -21,6 +22,9 @@ function TaskList() {
           >
             DELETE
           </button>
+          <button onClick={()=>{
+            navigate(`/edit-task/${t.id}`)          
+          }}>Edit</button>
           <hr />
         </div>
       ))}
