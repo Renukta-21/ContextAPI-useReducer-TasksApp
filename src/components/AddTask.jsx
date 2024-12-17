@@ -9,16 +9,18 @@ function AddTask() {
     description: ''
   })
 
-  const { addTask, state, dispatch } = useContext(GlobalContext)
+  const { addTask, editTask, state } = useContext(GlobalContext)
   const navigate = useNavigate()
   const params = useParams()
 
   const handleSubmit = (e) => {
     e.preventDefault()
     if(params.id){
-      return dispatch({type:'EDIT_TASK', payload:params.id })
+      editTask(task)
     }
-    addTask(task)
+    else{
+      addTask(task)
+    }
     navigate('/')
   }
 

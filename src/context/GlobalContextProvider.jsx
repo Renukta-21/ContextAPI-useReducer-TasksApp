@@ -55,8 +55,11 @@ export function GlobalContextProvider ({children}){
       dispatch({type:'ADD_TASK', payload:{...task, id:uuid()}})
     }
 
+    const editTask = (editedTask)=>{
+      dispatch({type:'EDIT_TASK', payload:editedTask})
+    }
     return(
-        <GlobalContext.Provider value={{state, addTask, dispatch}}>
+        <GlobalContext.Provider value={{state, addTask, editTask}}>
             {children}
         </GlobalContext.Provider>
     )
