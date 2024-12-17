@@ -32,7 +32,14 @@ const initialState = {
       case 'DELETE_TASK': {
         return {
           ...state,
-          tasks: state.tasks.filter((t) => t.id !== action.payload),
+          tasks: state.tasks.filter((t) => t.id !== action.payload)
+        }
+      }
+      case 'EDIT_TASK':{
+        const updatedTask = action.payload
+        return {
+          ...state,
+          tasks: state.tasks.map(t=> t.id !== updatedTask.id ? t : updatedTask)
         }
       }
       default:
@@ -49,7 +56,7 @@ export function GlobalContextProvider ({children}){
     }
 
     return(
-        <GlobalContext.Provider value={{state, addTask}}>
+        <GlobalContext.Provider value={{state, addTask, dispatch}}>
             {children}
         </GlobalContext.Provider>
     )
