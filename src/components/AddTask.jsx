@@ -1,11 +1,12 @@
 import { GlobalContext } from '../context/GlobalContext'
-import { useContext } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { useContext, useEffect } from 'react'
+import { Link, useNavigate, useParams } from 'react-router'
 
 function AddTask() {
   const { addTask } = useContext(GlobalContext)
   const navigate = useNavigate()
-
+  const params = useParams()
+  
   const handleSubmit = (e) => {
     e.preventDefault()
     const newForm = new FormData(e.target)
@@ -13,6 +14,13 @@ function AddTask() {
     addTask(task)
     navigate('/')
   }
+  
+  useEffect(() => {
+    if(params.id){
+      return console.log('editing mode')
+    }  
+    console.log('Adding task')
+  }, [])
   
   return (
     <div>
